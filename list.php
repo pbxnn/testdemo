@@ -167,18 +167,66 @@ function findCrossPoint($pHead1, $pHead2)
 }
 
 
+/**
+ * 链表翻转（栈）
+ */
+function reverse($pHead)
+{
+    $stack = [];
+    while ($pHead) {
+        array_unshift($stack, $pHead->val);
+        $pHead = $pHead->next;
+    }
+
+    while ($stack) {
+        echo array_shift($stack) . PHP_EOL;
+    }
+    echo PHP_EOL;
+}
+
+
+/**
+ * 倒数第k个节点
+ */
+function lastKNode($pHead, $k)
+{
+    if ($pHead == NULL || $k <= 0) {
+        return false;
+    }
+
+    $fast = $pHead;
+    $slow = $pHead;
+    for ($i = 0; $i < $k; $i++) {
+        if ($fast == NULL) {
+            return false;
+        }
+        $fast = $fast->next;
+    }
+
+    while ($fast != NULL) {
+        $fast = $fast->next;
+        $slow = $slow->next;
+    }
+    return $slow;
+}
+
+
 $data1 = [1, 2, 3, 4, 5];
 $data2 = [2, 3, 4, 5];
 $r1= initRing($data1, 4);
 $l1 = init($data1);
 $l2 = headInsert($l1, $data2);
 dump($l1);
-dump($l2);
+// dump($l2);
 //$hasRing = findRing($r1);
 //var_dump($hasRing);
 //$entrance = findEntrance($r1);
 //var_dump($entrance->val);
-$isCoross = isCross($l1, $l2);
-var_dump($isCoross);
-$crossPoint = findCrossPoint($l1, $l2);
-var_dump($crossPoint->val);
+// $isCoross = isCross($l1, $l2);
+// var_dump($isCoross);
+// $crossPoint = findCrossPoint($l1, $l2);
+// var_dump($crossPoint->val);
+
+// reverse($l2);
+
+var_dump(lastKNode($l1, 3)->val);

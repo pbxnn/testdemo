@@ -116,3 +116,5 @@ $root = buildTree($preOrder, $inOrder);
 var_dump($root);
 inOrder($root);
 preOrder($root);
+$depth = getDepth($root);
+var_dump($depth);
