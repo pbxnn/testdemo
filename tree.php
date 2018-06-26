@@ -108,13 +108,105 @@ function buildTree($preOrder = [], $inOrder)
 }
 
 
+/**
+ * 判断一颗二叉树是否为另一二叉树的子树
+ */
+function isChild($parent, $child)
+{
+    if ($child == NULL) {
+        return true;
+    } elseif ($parent == NULL) {
+        return false;
+    }
+
+    if ($parent->val != $child->val) {
+        return false;
+    }
+
+    return isChild($parent->left, $child->left) && isChild($parent->right, $child->right);
+}
+
+function hasSubTree($parent, $child)
+{
+    if ($child == NULL) {
+        return false;
+    } elseif ($parent == NULL) {
+        return false;
+    }
+
+    $res = false;
+    if ($parent->val == $child->val) {
+        $res = isChild($parent, $child);
+    }
+
+    if (!$res) {
+        return hasSubTree($parent->left, $child) || hasSubTree($parent->right, $child);
+    }
+
+    return true;
+}
+
+
+/**
+ * 镜像
+ */
+function mirror($root)
+{
+    if ($root == NULL) {
+        return false;
+    }
+
+    swap($root->left, $root->right);
+    mirror($root->left);
+    mirror($root->right);
+}
+
+function swap(&$left, &$right)
+{
+    $tmp = $left;
+    $left = $right;
+    $right = $tmp;
+}
+
+/**
+ * 非递归求镜像
+ */
+/**
+ * 前序
+ */
+function mirrorPre($root)
+{
+    
+}
+
+
+
+/**
+ *          1
+ *         / \
+ *        2   3
+ *       /   / \
+ *      4   5   6
+ *       \     /
+ *        7   8
+ */
 $preOrder = [1, 2, 4, 7, 3, 5, 6, 8];
 $inOrder = [4, 7, 2, 1, 5, 3, 8, 6];
 // $preOrder = [1, 2, 3];
 // $inOrder = [2, 1, 3];
 $root = buildTree($preOrder, $inOrder);
-var_dump($root);
-inOrder($root);
+// var_dump($root);
+// inOrder($root);
+// preOrder($root);
+// $depth = getDepth($root);
+// var_dump($depth);
+
+$cpre = [3, 5, 6];
+$cin = [5, 3, 6];
+$c = buildTree($cpre, $cin);
+$res = hasSubTree($root, $c);
+
+
+mirror($root);
 preOrder($root);
-$depth = getDepth($root);
-var_dump($depth);
+inOrder($root);
