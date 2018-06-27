@@ -171,12 +171,9 @@ function swap(&$left, &$right)
 /**
  * 非递归求镜像
  */
-/**
- * 前序
- */
 function mirrorPre($root)
 {
-    
+
 }
 
 
