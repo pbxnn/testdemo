@@ -78,6 +78,20 @@ function inOrder($pRoot)
 
 
 /**
+ * 后序遍历
+ */
+function postOrder($pRoot)
+{
+    if ($pRoot == NULL) {
+        return false;
+    }
+    postOrder($pRoot->left);
+    postOrder($pRoot->right);
+    echo $pRoot->val . PHP_EOL;
+}
+
+
+/**
  * 根据前序和中序遍历重建二叉树
  */
 function buildTree($preOrder = [], $inOrder)
@@ -177,24 +191,144 @@ function mirrorPre($root)
 }
 
 
+/**
+ * 层序遍历（队列）
+ */
+function levelOrder($root)
+{
+    if ($root == NULL) {
+        return false;
+    }
+
+    $queue = [];
+    array_push($queue, $root);
+
+    while (count($queue)) {
+        $root = array_shift($queue);
+
+        if ($root == NULL) {
+            break;
+        } else {
+            echo $root->val . PHP_EOL;
+            if ($root->left != NULL) {
+                array_push($queue, $root->left);
+            }
+            if ($root->right != NULL) {
+                array_push($queue, $root->right);
+            }
+        }
+    }
+}
+
+
+/**
+ * 打印和为某一数值的所有路径
+ */
+function printPathBySum($root, $sum, $path = [], $currSum = 0)
+{
+    if ($root == NULL) {
+        return false;
+    }
+    array_push($path, $root);
+    $currSum += $root->val;
+    if ($currSum == $sum) {
+        foreach ($path as $k => $v) {
+            echo $v->val . ' ';
+        }
+        echo PHP_EOL;
+    }
+
+    if ($root->left != NULL) {
+        printPathBySum($root->left, $sum, $path, $currSum);
+    }
+    if ($root->right != NULL) {
+        printPathBySum($root->right, $sum, $path, $currSum);
+    }
+}
+
+
+/**
+ * 二叉搜索树转双向链表（不创建新节点，中序）
+ */
+// class listNode {
+//     public $val;
+//     public $last = NULL;
+//     public $next = NULL;
+//     public function __construct($val) {
+//         $this->val = $val;
+//     }
+// }
+function convertRecursion($root, $lastNode = NULL)
+{
+    if ($root == NULL) {
+        return NULL;
+    }
+
+    $currNode = $root;
+    $lastNode = NULL;
+
+    if ($currNode->left != NULL) {
+        $lastNode = convertRecursion($currNode->left, $lastNode);
+    }
+
+    $currNode->left = $lastNode;
+    if ($lastNode != NULL) {
+        $lastNode->right = $currNode;
+    }
+
+    if ($currNode != NULL) {
+        $lastNode = $currNode;
+    }
+
+    if ($currNode->right != NULL) {
+        $lastNode = convertRecursion($currNode->right, $lastNode);
+    }
+    return $lastNode;
+}
+
+function convert($root)
+{
+    if ($root == NULL) {
+        return NULL;
+    }
+    $lastNode = convertRecursion($root);
+    while ($lastNode != NULL && $lastNode->left != NULL) {
+        $lastNode = $lastNode->left;
+    }
+    return $lastNode;
+}
+
+$searchPreOrder = [5,3,2,4,7,6,8];
+$searchInOrder = [2,3,4,5,6,7,8];
+$searchRoot = buildTree($searchPreOrder, $searchInOrder);
+// levelOrder($searchRoot);
+$listNode = convert($searchRoot);
+var_dump($listNode);
+exit;
+
+
 
 /**
  *          1
  *         / \
  *        2   3
  *       /   / \
- *      4   5   6
+ *      4   14   6
  *       \     /
- *        7   8
+ *        11  8
  */
-$preOrder = [1, 2, 4, 7, 3, 5, 6, 8];
-$inOrder = [4, 7, 2, 1, 5, 3, 8, 6];
+$preOrder = [1, 2, 4, 11, 3, 14, 6, 8];
+$inOrder = [4, 11, 2, 1, 14, 3, 8, 6];
 // $preOrder = [1, 2, 3];
 // $inOrder = [2, 1, 3];
 $root = buildTree($preOrder, $inOrder);
-// var_dump($root);
+printPathBySum($root, 18, [], 0);
+// exit;
 // inOrder($root);
 // preOrder($root);
+// postOrder($root);
+levelOrder($root);
+exit;
 // $depth = getDepth($root);
 // var_dump($depth);
 
