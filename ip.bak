@@ -1,0 +1,67 @@
+{
+  "ip.selectors": {
+    "6048c1b6-23fe-41da-ab9e-36f48ea003a2": {
+      "enable": true,
+      "judge": {
+        "type": 0,
+        "conditions": [
+          {
+            "type": "Host",
+            "operator": "match",
+            "value": "www.xueersi.com"
+          }
+        ]
+      },
+      "rules": [
+        "b8b18051-38ec-4c11-9955-1943ed337b5f"
+      ],
+      "handle": {
+        "log": true,
+        "continue": false
+      },
+      "type": 1,
+      "time": "2017-09-06 11:35:30",
+      "name": "ip",
+      "id": "6048c1b6-23fe-41da-ab9e-36f48ea003a2"
+    }
+  },
+  "ip.selector.6048c1b6-23fe-41da-ab9e-36f48ea003a2.rules": [
+    {
+      "enable": true,
+      "handle": {
+        "log": true,
+        "level": 1,
+        "url":"http://ipip.xesv5.com/api/v1/full/location?ip="
+      },
+      "id": "b8b18051-38ec-4c11-9955-1943ed337b5f",
+      "time": "2017-09-06 11:36:58",
+      "name": "test",
+      "judge": {
+        "type": 2,
+        "conditions": [
+          {
+            "type": "URI",
+            "operator": "=",
+            "value": "/"
+          },
+          {
+            "type": "URI",
+            "operator": "match",
+            "value": "/Index/liveCourseList"
+          },
+          {
+            "type": "URI",
+            "operator": "match",
+            "value": "/Index/courseSifts"
+          }
+        ]
+      }
+    }
+  ],
+  "ip.enable": true,
+  "ip.meta": {
+    "selectors": [
+      "6048c1b6-23fe-41da-ab9e-36f48ea003a2"
+    ]
+  }
+}
