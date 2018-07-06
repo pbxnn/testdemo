@@ -247,6 +247,72 @@ function printPathBySum($root, $sum, $path = [], $currSum = 0)
 }
 
 
+
+/**
+ * 中序遍历中，某节点的下一个节点
+ */
+function findNext($pNode)
+{
+    if ($pNode == NULL) {
+        return NULL;
+    }
+
+    $pNext = NULL;
+    if ($pNode->right != NULL) {
+        $pNext = $pNode->right;
+        while ($pNext != NULL) {
+            $pNext = $pNext;
+        }
+    } elseif ($pNode->right == NULL && $pNode->next != NULL) {
+        $pCurrent = $pNode;
+        $pParent = $pNode->next;
+        while ($pParent != NULL && $pCurrent == $pParent->right) {
+            $pCurrent = $pParent;
+            $pParent = $pCurrent->next;
+        }
+        $pNext = $pParent;
+    }
+    return $pNext;
+}
+
+
+
+/**
+ * 判断二叉树是否对称
+ */
+function isSymmetry($root)
+{
+    if ($root == NULL) {
+        return true;
+    }
+    return isSymmetryRescurison($root->left, $root->right);
+}
+function isSymmetryRescurison($left, $right)
+{
+    if ($left == NULL && $right == NULL) {
+        return true;
+    } elseif ($left == NULL || $right == NULL) {
+        return false;
+    } elseif ($left->val != $right->val) {
+        return false;
+    } else {
+        return isSymmetryRescurison($left->left, $right->right) && isSymmetryRescurison($left->right, $right->left);
+    }
+}
+// 测试
+$p1 = [1,2,2];
+$i1 = [2,1,2];
+$p2 = [1,2,3,3,2,3,3];
+$i2 = [3,2,3,1,3,2,3];
+$p3 = [1,2,3,4,2,4,3];
+$i3 = [3,2,4,1,4,2,3];
+$r1 = buildTree($p1, $i1);
+$r2 = buildTree($p2, $i2);
+$r3 = buildTree($p3, $i3);
+var_dump(isSymmetry($r1), isSymmetry($r2), isSymmetry($r3));exit;
+
+
+
 /**
  * 二叉搜索树转双向链表（不创建新节点，中序）
  */
@@ -298,13 +364,13 @@ function convert($root)
     return $lastNode;
 }
 
-$searchPreOrder = [5,3,2,4,7,6,8];
-$searchInOrder = [2,3,4,5,6,7,8];
-$searchRoot = buildTree($searchPreOrder, $searchInOrder);
-// levelOrder($searchRoot);
-$listNode = convert($searchRoot);
-var_dump($listNode);
-exit;
+// $searchPreOrder = [5,3,2,4,7,6,8];
+// $searchInOrder = [2,3,4,5,6,7,8];
+// $searchRoot = buildTree($searchPreOrder, $searchInOrder);
+// // levelOrder($searchRoot);
+// $listNode = convert($searchRoot);
+// var_dump($listNode);
+// exit;
 
 
 
